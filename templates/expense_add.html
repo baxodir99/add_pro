@@ -11,14 +11,10 @@
               {% csrf_token %}
               {% load crispy_forms_tags %}
                 <div class="mb-3">
-                    {% comment %} <label for="formGroupExampleInput" class="form-label">Ish haqi</label> {% endcomment %}
                     {{ outcomeform.salary|as_crispy_field }}
-                    {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ish haqi"> {% endcomment %}
                 </div>
                 <div class="mb-3">
-                    {% comment %} <label for="formGroupExampleInput" class="form-label">Marketing reklama</label> {% endcomment %}
                     {{ outcomeform.marketing|as_crispy_field }}
-                    {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Marketing reklama"> {% endcomment %}
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-primary" type="submit">Jo'natish</button>

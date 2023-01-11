@@ -19,14 +19,31 @@
         </thead>
         <tbody>
           {% for item in data %}
+          <i class="fa-thin fa-arrow-up"></i>
             <tr>
               <th scope="row">{{ forloop.counter}}</th>
               <td>{{item.user.last_name}} {{item.user.first_name}}</td>
               <td><a href="report_detail/{{item.business.id}}">{{ item.business.name}}</a></td>
-              <td>{{ item.income_foiz }}% ({{ item.income }} so'm)</td>
-              <td>{{ item.customer_count_foiz }}% ({{ item.customer_count }}) </td>
-              <td>{{ item.salary_foiz }}% ({{ item.salary }} so'm)</td>
-              <td>{{ item.marketing_foiz }}% ({{ item.marketing}})</td>
+              {% if item.income_foiz <= 0 %}
+                <td>⬇{{ item.income_foiz }}% ({{ item.income }} so'm)</td>
+              {% else %}
+                <td>⬆{{ item.income_foiz }}% ({{ item.income }} so'm)</td>
+              {% endif %}
+              {% if item.customer_count_foiz <= 0 %}
+                <td>⬇{{ item.customer_count_foiz }}% ({{ item.customer_count }}) </td>
+              {% else %}
+                <td>⬆{{ item.customer_count_foiz }}% ({{ item.customer_count }}) </td>
+              {% endif %}
+              {% if item.salary_foiz <= 0 %}
+                <td>⬇{{ item.salary_foiz }}% ({{ item.salary }} so'm)</td>
+              {% else %}
+                <td>⬆{{ item.salary_foiz }}% ({{ item.salary }} so'm)</td>
+              {% endif %}
+              {% if item.marketing_foiz <= 0 %}
+                <td>⬇{{ item.marketing_foiz }}% ({{ item.marketing}})</td>
+              {% else %}
+                <td>⬆{{ item.marketing_foiz }}% ({{ item.marketing}})</td>
+              {% endif %}
               <td>{{ item.time }}</td>
             </tr>
           {% endfor %}

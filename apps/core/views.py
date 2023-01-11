@@ -34,12 +34,16 @@ def vc_index(request):
                     'business':business,
                     'time':Income.objects.filter(business=business).last().created_at,
                     'income':Income.objects.filter(business=business).last().income,
+                    # 'income_icon': 
                     'income_foiz': round(100-(100*Income.objects.filter(business=business).last().income)/Income.objects.filter(business=business)[(len(Income.objects.filter(business=business))-2) if len(Income.objects.filter(business=business))>=2 else 0].income, 2),
                     'customer_count':Income.objects.filter(business=business).last().customer_count,
+                    # 'customer_count_icon':
                     'customer_count_foiz':round(100-(100*Income.objects.filter(business=business).last().customer_count)/Income.objects.filter(business=business)[(len(Income.objects.filter(business=business))-2) if len(Income.objects.filter(business=business))>=2 else 0].customer_count, 2),
                     'salary':Outcome.objects.filter(business=business).last().salary,
+                    # 'salary_icon':
                     'salary_foiz': round(100-100*Outcome.objects.filter(business=business).last().salary/Outcome.objects.filter(business=business)[(len(Outcome.objects.filter(business=business))-2) if len(Outcome.objects.filter(business=business))>=2 else 0].salary, 2),
                     'marketing':Outcome.objects.filter(business=business).last().marketing,
+                    # 'marketing_icon':
                     'marketing_foiz': round(100-100*Outcome.objects.filter(business=business).last().marketing/Outcome.objects.filter(business=business)[(len(Outcome.objects.filter(business=business))-2) if len(Outcome.objects.filter(business=business))>=2 else 0].marketing, 2)
                 } for business in business
             ]}
