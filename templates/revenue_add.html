@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+    <div class="container">
+       <div class="row">
+        <div class="col-8">
+            <h2>Daromadlar</h2>
+            <form method="POST">
+              {% csrf_token %}
+              {% load crispy_forms_tags %}
+              <div class="mb-3">
+                  {% comment %} <label for="formGroupExampleInput" class="form-label">Joriy oyda olingan daromad</label> {% endcomment %}
+                  {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Joriy oyda olingan daromad"> {% endcomment %}
+                  {{ incomeform.income|as_crispy_field }}
+              </div>
+              <div class="mb-3">
+                  {% comment %} <label for="formGroupExampleInput" class="form-label">Joriy oydagi mijozlar soni</label> {% endcomment %}
+                  {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Joriy oydagi mijozlar soni"> {% endcomment %}
+                  <p>{{ incomeform.customer_count|as_crispy_field }}</p>
+              </div>
+              <div class="mb-3">
+                  <button class="btn btn-primary" type="submit">Jo'natish</button>
+              </div>
+            </form>
+        </div>
+       </div>
+      </div>
+{% endblock %}

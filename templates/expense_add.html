@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+    <div class="container">
+       <div class="row">
+        <div class="col-8">
+            <h2>Xarajatlar</h2>
+            <form method="POST">
+              {% csrf_token %}
+              {% load crispy_forms_tags %}
+                <div class="mb-3">
+                    {% comment %} <label for="formGroupExampleInput" class="form-label">Ish haqi</label> {% endcomment %}
+                    {{ outcomeform.salary|as_crispy_field }}
+                    {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ish haqi"> {% endcomment %}
+                </div>
+                <div class="mb-3">
+                    {% comment %} <label for="formGroupExampleInput" class="form-label">Marketing reklama</label> {% endcomment %}
+                    {{ outcomeform.marketing|as_crispy_field }}
+                    {% comment %} <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Marketing reklama"> {% endcomment %}
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Jo'natish</button>
+                </div>
+            </form>
+        </div>
+       </div>
+      </div>
+{% endblock %}

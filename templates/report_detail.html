@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h2>Daromad</h2>
+                <a href="income_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Daromadlar (Mahsulot va xizmatlar bo'yicha)</th>
+                            <th scope="col">Oylik hisobot uchun (oy)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in income %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>Joriy oyda olingan daromad</td>
+                                <td>{{item.income}} ({{item.month}} oy)</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>Joriy oydagi mijozlar soni</td>
+                                <td>{{item.customer_count}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h2>Xarajatlar</h2>
+                <a href="outcome_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Xarajatlar</th>
+                            <th scope="col">Oylik hisobot uchun (oy)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in outcome %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>Ish haqi</td>
+                                <td>{{item.salary}} ({{item.month}} oy)</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>Marketing reklama</td>
+                                <td>{{item.marketing}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

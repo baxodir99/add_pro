@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+    <h2>Hisobotlar</h2>
+    <a href="{% url 'add'%}" type="button" class="btn btn-primary">Qo'shish</a>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">loyiha</th>
+            <th scope="col">Vaqti</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for business in data %}
+            <tr>
+              <th scope="row">{{ forloop.counter}}</th>
+              <td><a href="report_detail/{{business.business.id}}">{{ business.business.name }}</a></td>
+              <td>{{ business.business.created_at }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
