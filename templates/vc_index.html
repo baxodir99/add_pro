@@ -14,7 +14,7 @@
             <th scope="col">Joriy oydagi mijozlar soni</th>
             <th scope="col">Ish haqi</th>
             <th scope="col">Marketing reklama</th>
-            <th scope="col">Month</th>
+            <th scope="col">Time</th>
           </tr>
         </thead>
         <tbody>
@@ -23,11 +23,11 @@
               <th scope="row">{{ forloop.counter}}</th>
               <td>{{item.user.last_name}} {{item.user.first_name}}</td>
               <td><a href="report_detail/{{item.business.id}}">{{ item.business.name}}</a></td>
-              <td>{{ item.income }}</td>
-              <td>{{ item.customer_count }}</td>
-              <td>{{ item.salary }}</td>
-              <td>{{ item.marketing }}</td>
-              <td>{{ item.month }}</td>
+              <td>{{ item.income_foiz }}% ({{ item.income }} so'm)</td>
+              <td>{{ item.customer_count_foiz }}% ({{ item.customer_count }}) </td>
+              <td>{{ item.salary_foiz }}% ({{ item.salary }} so'm)</td>
+              <td>{{ item.marketing_foiz }}% ({{ item.marketing}})</td>
+              <td>{{ item.time }}</td>
             </tr>
           {% endfor %}
         </tbody>

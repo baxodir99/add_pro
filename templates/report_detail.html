@@ -17,20 +17,23 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Daromadlar (Mahsulot va xizmatlar bo'yicha)</th>
-                            <th scope="col">Oylik hisobot uchun (oy)</th>
+                            <th scope="col">Oylik hisobot uchun </th>
+                            <th scope="col">Time </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in income %}
                             <tr>
-                                <th scope="row">{{forloop.counter}}</th>
+                                <th scope="row">{{item.income_index}}</th>
                                 <td>Joriy oyda olingan daromad</td>
-                                <td>{{item.income}} ({{item.month}} oy)</td>
+                                <td>{{item.income}}</td>
+                                <td>{{item.created_at}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">{{forloop.counter}}</th>
+                                <th scope="row">{{item.customer_count_index}}</th>
                                 <td>Joriy oydagi mijozlar soni</td>
                                 <td>{{item.customer_count}}</td>
+                                <td>{{item.created_at}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -49,20 +52,23 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Xarajatlar</th>
-                            <th scope="col">Oylik hisobot uchun (oy)</th>
+                            <th scope="col">Oylik hisobot uchun </th>
+                            <th scope="col">Time </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in outcome %}
                             <tr>
-                                <th scope="row">{{forloop.counter}}</th>
+                                <th scope="row">{{item.salary_index}}</th>
                                 <td>Ish haqi</td>
-                                <td>{{item.salary}} ({{item.month}} oy)</td>
+                                <td>{{item.salary}}</td>
+                                <td>{{item.created_at}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">{{forloop.counter}}</th>
+                                <th scope="row">{{item.marketing_index}}</th>
                                 <td>Marketing reklama</td>
                                 <td>{{item.marketing}}</td>
+                                <td>{{item.created_at}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

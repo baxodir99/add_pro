@@ -1,3 +1,4 @@
+import math
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from .helpers import get_current_date
@@ -24,9 +25,6 @@ def index(request):
         return render(request, 'home.html')
 
 def vc_index(request):
-    date = get_current_date()
-    month = int(date[5:7])
-    
     if request.user.is_authenticated and request.user.is_superuser == True:
         business = Business.objects.all()
         context = {
@@ -34,11 +32,15 @@ def vc_index(request):
                     {
                     'user':business.user,
                     'business':business,
-                    'income':Income.objects.filter(Q(business=business) & Q(month=month)).values_list('income', flat=True).first(),
-                    'customer_count':Income.objects.filter(Q(business=business) & Q(month=month)).values_list('customer_count', flat=True).first(),
-                    'salary':Outcome.objects.filter(Q(business=business) & Q(month=month)).values_list('salary', flat=True).first(),
-                    'marketing':Outcome.objects.filter(Q(business=business) & Q(month=month)).values_list('marketing', flat=True).first(),
-                    'month':month,
+                    'time':Income.objects.filter(business=business).last().created_at,
+                    'income':Income.objects.filter(business=business).last().income,
+                    'income_foiz': round(100-(100*Income.objects.filter(business=business).last().income)/Income.objects.filter(business=business)[(len(Income.objects.filter(business=business))-2) if len(Income.objects.filter(business=business))>=2 else 0].income, 2),
+                    'customer_count':Income.objects.filter(business=business).last().customer_count,
+                    'customer_count_foiz':round(100-(100*Income.objects.filter(business=business).last().customer_count)/Income.objects.filter(business=business)[(len(Income.objects.filter(business=business))-2) if len(Income.objects.filter(business=business))>=2 else 0].customer_count, 2),
+                    'salary':Outcome.objects.filter(business=business).last().salary,
+                    'salary_foiz': round(100-100*Outcome.objects.filter(business=business).last().salary/Outcome.objects.filter(business=business)[(len(Outcome.objects.filter(business=business))-2) if len(Outcome.objects.filter(business=business))>=2 else 0].salary, 2),
+                    'marketing':Outcome.objects.filter(business=business).last().marketing,
+                    'marketing_foiz': round(100-100*Outcome.objects.filter(business=business).last().marketing/Outcome.objects.filter(business=business)[(len(Outcome.objects.filter(business=business))-2) if len(Outcome.objects.filter(business=business))>=2 else 0].marketing, 2)
                 } for business in business
             ]}
         return render(request, 'vc_index.html', context=context)
@@ -60,22 +62,28 @@ def business_create(request):
     else:
         return render(request, 'home.html')
 
-
+      
 def report_detail(request, id):
     business = Business.objects.get(id=id)
     if request.user.is_authenticated and request.user==business.user or request.user.is_superuser == True:
+        income  = Income.objects.filter(business=business)
+        outcome = Outcome.objects.filter(business=business)
         context = {
             'business':business,
             'income': [{
-            'income': income.income,
-            'customer_count': income.customer_count,
-            'month': income.month
-            } for income in Income.objects.filter(business=business)],
+            'income_index': 2*i+1,
+            'income': income[i].income,
+            'customer_count_index': 2*(i+1),
+            'customer_count': income[i].customer_count,
+            'created_at': income[i].created_at,
+            } for i in range(0, len(income))],
             'outcome': [{
-            'salary': outcome.salary,
-            'marketing': outcome.marketing,
-            'month': outcome.month
-            } for outcome in Outcome.objects.filter(business=business)],
+            'salary_index': 2*i+1,
+            'salary': outcome[i].salary,
+            'marketing_index': 2*(i+1),
+            'marketing': outcome[i].marketing,
+            'created_at': outcome[i].created_at,
+            } for i in range(0, len(outcome))],
         }
         return render(request,'report_detail.html',context=context)
     else:
@@ -90,19 +98,13 @@ def outcome_create(request, *args, **kwargs):
         if request.method == "POST":
             form = OutcomeForm(request.POST)
             if form.is_valid():
-                outcome = Outcome.objects.filter(Q(month=month) & Q(business=business[15:-16]))
-                if outcome:
-                    messages.info(request, "expense already created this month.") 
-                    rets = f"/report_detail/{outcome[0].business.id}/"
-                    return redirect(rets)
-                else:
-                    business = get_object_or_404(Business, id=business[15:-16])
-                    outcome = form.save(commit=False)
-                    outcome.business = business
-                    outcome.month = month
-                    outcome.save()
-                    rets = f"/report_detail/{business.id}/"
-                    return redirect(rets)
+                business = get_object_or_404(Business, id=business[15:-16])
+                outcome = form.save(commit=False)
+                outcome.business = business
+                outcome.month = month
+                outcome.save()
+                rets = f"/report_detail/{business.id}/"
+                return redirect(rets)
         form = OutcomeForm()
         return render(request=request, template_name="expense_add.html", context={"outcomeform":form})
     else:
@@ -117,19 +119,13 @@ def income_create(request, *args, **kwargs):
         if request.method == "POST":
             form = IncomeForm(request.POST)
             if form.is_valid():
-                income = Income.objects.filter(Q(month=month) & Q(business=business[15:-15]))
-                if income:
-                    messages.info(request, "expense already created this month.")
-                    rets = f"/report_detail/{income[0].business.id}/"
-                    return redirect(rets)
-                else:
-                    business = get_object_or_404(Business, id=business[15:-15])
-                    income = form.save(commit=False)
-                    income.business = business
-                    income.month = month
-                    income.save()
-                    rets = f"/report_detail/{business.id}/"
-                    return redirect(rets)
+                business = get_object_or_404(Business, id=business[15:-15])
+                income = form.save(commit=False)
+                income.business = business
+                income.month = month
+                income.save()
+                rets = f"/report_detail/{business.id}/"
+                return redirect(rets)
         form = IncomeForm()
         return render(request=request, template_name="revenue_add.html", context={"incomeform":form})
     else:
