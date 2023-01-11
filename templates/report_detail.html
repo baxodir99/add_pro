@@ -7,7 +7,11 @@
         <div class="row">
             <div class="col-8">
                 <h2>Daromad</h2>
-                <a href="income_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                {% if request.user.is_superuser %}
+                {% else %}
+                    <a href="income_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                {% endif %}
+                
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -36,7 +40,10 @@
         <div class="row">
             <div class="col-8">
                 <h2>Xarajatlar</h2>
-                <a href="outcome_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                {% if request.user.is_superuser %}
+                {% else %}
+                    <a href="outcome_create/" type="button" class="btn btn-primary">Qo'shish</a>
+                {% endif %}
                 <table class="table table-striped">
                     <thead>
                         <tr>
